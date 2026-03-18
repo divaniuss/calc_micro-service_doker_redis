@@ -1,15 +1,13 @@
 import customtkinter as ctk
 import requests
 
+#docker + nginx
+# AUTH_URL = "http://127.0.0.1"
+# CALC_URL = "http://127.0.0.1"
 
 #local test
 AUTH_URL = "http://127.0.0.1:8000"
 CALC_URL = "http://127.0.0.1:8001"
-
-
-#docker + nginx
-# AUTH_URL = "http://127.0.0.1"
-# CALC_URL = "http://127.0.0.1"
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -18,8 +16,8 @@ ctk.set_default_color_theme("blue")
 class CalcApp(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.title("Calc")
-        self.geometry("400x400")
+        self.title("Microservices Calc")
+        self.geometry("400x500")
         self.token = None
         self.show_auth_frame()
 
@@ -85,12 +83,15 @@ class CalcApp(ctk.CTk):
             widget.destroy()
 
         self.calc_entry = ctk.CTkEntry(self, placeholder_text="expression", width=250)
-        self.calc_entry.pack(pady=(50, 20))
+        self.calc_entry.pack(pady=(30, 20))
 
         ctk.CTkButton(self, text="Calculate", command=self.calculate).pack(pady=10)
 
         self.result_label = ctk.CTkLabel(self, text="Result: ", font=("Arial", 18))
-        self.result_label.pack(pady=20)
+        self.result_label.pack(pady=10)
+
+        self.history_box = ctk.CTkTextbox(self, width=300, height=150, state="disabled")
+        self.history_box.pack(pady=20)
 
     def calculate(self):
         expr = self.calc_entry.get()
@@ -111,6 +112,11 @@ class CalcApp(ctk.CTk):
                 print("calc success")
                 ans = res.json().get("result")
                 self.result_label.configure(text=f"Result: {ans}")
+
+                self.history_box.configure(state="normal")
+                self.history_box.insert("end", f"{expr} = {ans}\n")
+                self.history_box.configure(state="disabled")
+                self.history_box.see("end")
             else:
                 print("calc error")
         except Exception:
