@@ -2,12 +2,12 @@ import customtkinter as ctk
 import requests
 
 #docker + nginx
-# AUTH_URL = "http://127.0.0.1"
-# CALC_URL = "http://127.0.0.1"
+AUTH_URL = "http://127.0.0.1/auth"
+CALC_URL = "http://127.0.0.1/calc"
 
 #local test
-AUTH_URL = "http://127.0.0.1:8000"
-CALC_URL = "http://127.0.0.1:8001"
+# AUTH_URL = "http://127.0.0.1:8000"
+# CALC_URL = "http://127.0.0.1:8001"
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
